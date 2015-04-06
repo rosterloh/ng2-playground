@@ -1,0 +1,32 @@
+{
+  "name": "ng2-playground",
+  "version": "0.0.1",
+  "author": "Richard Osterloh <richard.osterloh@gmail.com>",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rosterloh/ng2-playground.git"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.5.3",
+    "connect": "^3.3.4",
+    "del": "~1.1.1",
+    "gulp": "~3.8.11",
+    "gulp-concat": "~2.5.0",
+    "gulp-load-plugins": "^0.9.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-rename": "~1.2.0",
+    "gulp-traceur": "0.17.*",
+    "open": "0.0.5",
+    "systemjs-builder": "^0.10.3",
+    "through2": "~0.6.3"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-alpha.18",
+    "es6-module-loader": "0.16.3",
+    "systemjs": "0.16.6"
+  }
+}
