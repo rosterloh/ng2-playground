@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
-<head>
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="angular-material.css">
 
     <!-- ES6-related imports -->
     <script src="lib/traceur-runtime.js"></script>
@@ -15,8 +16,15 @@
     <script src="lib/zone.js"></script>
     <script src="lib/long-stack-trace-zone.js"></script>
     <script src="lib/angular2.js"></script>
+    <script src="lib/angular-material.js"></script>
 </head>
 <body>
+    <md-toolbar layout="row">
+        <md-button class="menu" hide-gt-sm aria-label="Show User List">
+            <md-icon md-svg-icon="menu" ></md-icon>
+        </md-button>
+        <h1>ANGULAR 2.0 Playground</h1>
+    </md-toolbar>
     <hello>
         Loading...
     </hello>
