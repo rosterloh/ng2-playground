@@ -1,41 +1,40 @@
 <!doctype html>
 <html lang="en">
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="angular-material.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <!-- ES6-related imports -->
+  <script src="lib/traceur-runtime.js"></script>
+  <script src="lib/es6-module-loader-sans-promises.src.js"></script>
+  <script src="lib/extension-register.js"></script>
+  <script src="lib/Reflect.js"></script>
+  <script>
+    register(System);
+  </script>
 
-    <!-- ES6-related imports -->
-    <script src="lib/traceur-runtime.js"></script>
-    <script src="lib/es6-module-loader-sans-promises.src.js"></script>
-    <script src="lib/extension-register.js"></script>
-    <script>
-        register(System);
-    </script>
+  <!-- Angular2-related imports -->
+  <script src="lib/zone.js"></script>
+  <script src="lib/long-stack-trace-zone.js"></script>
+  <script src="lib/angular2.js"></script>
+  <script src="lib/router.js"></script>
 
-    <!-- Angular2-related imports -->
-    <script src="lib/zone.js"></script>
-    <script src="lib/long-stack-trace-zone.js"></script>
-    <script src="lib/angular2.js"></script>
-    <script src="lib/angular-material.js"></script>
+  <!-- Libraries -->
+  <script type="text/javascript" src="lib/fetch.js"></script>
+  <script type="text/javascript" src="lib/jwt-decode.js"></script>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="build.css">
 </head>
 <body>
-    <md-toolbar layout="row">
-        <md-button class="menu" hide-gt-sm aria-label="Show User List">
-            <md-icon md-svg-icon="menu" ></md-icon>
-        </md-button>
-        <h1>ANGULAR 2.0 Playground</h1>
-    </md-toolbar>
-    <hello>
+  <div class="container">
+    <auth-app>
         Loading...
-    </hello>
+    </auth-app>
+  </div>
 </body>
 
 <!-- Application bootstrap logic -->
 <script>
-    System.import('hello').catch(console.log.bind(console));
+  //System.import('hello').catch(console.log.bind(console));
+  System.import('index').catch(console.log.bind(console));
 </script>
 
 </html>

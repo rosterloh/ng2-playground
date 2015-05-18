@@ -2,6 +2,11 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var del = require('del');
 var pkg = require('./package');
+var rework = require('rework');
+var npmRework = require('rework-npm');
+var path = require('path');
+var fs = require('fs');
+var mkpath = require('mkpath');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
@@ -9,15 +14,21 @@ var PATHS = {
     src: {
       js: 'src/**/*.js',
       html: 'src/**/*.html',
-      css: 'node_modules/angular-material/angular-material.css'
+      css: {
+        main: 'src/index.css',
+        all: 'src/**/*.css'
+      }
     },
     lib: [
       'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
       'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.src.js',
       'node_modules/systemjs/lib/extension-register.js',
-      'node_modules/angular2/node_modules/zone.js/zone.js',
-      'node_modules/angular2/node_modules/zone.js/long-stack-trace-zone.js',
-      'node_modules/angular-material/angular-material.js'
+      'node_modules/angular2/node_modules/zone.js/dist/zone.js',
+      'node_modules/angular2/node_modules/zone.js/dist/long-stack-trace-zone.js',
+      'node_modules/whatwg-fetch/fetch.js',
+      'node_modules/jwt-decode/build/jwt-decode.js',
+      'node_modules/reflect-metadata/Reflect.js',
+      'node_modules/reflect-metadata/Reflect.js.map'
     ]
 };
 
@@ -46,12 +57,24 @@ gulp.task('html', function () {
 });
 
 gulp.task('css', function () {
-    return gulp.src(PATHS.src.css)
-        .pipe(gulp.dest('dist'));
+  var file = path.resolve(PATHS.src.css.main);
+  var source = path.relative(__dirname, file);
+  mkpath.sync('dist');
+  var output = fs.createWriteStream('dist/build.css');
+  var contents = fs.readFileSync(file, {encoding: 'utf8'});
+
+  // Initialize and pluginize `rework`
+  var css = rework(contents);
+  css.use(npmRework());
+
+  // write result
+  output.write(css.toString());
+  output.end();
 });
 
-gulp.task('libs', ['angular2'], function () {
+gulp.task('libs', ['angular2', 'router'], function () {
     return gulp.src(PATHS.lib)
+        .pipe($.size({showFiles: true, gzip: true}))
         .pipe(gulp.dest('dist/lib'));
 });
 
@@ -76,6 +99,21 @@ gulp.task('angular2', function () {
   return builder.build('angular2/angular2', 'dist/lib/angular2.js', {});
 });
 
+gulp.task('router', function () {
+
+  var buildConfig = {
+    paths: {
+      "angular2/*": "node_modules/angular2/es6/prod/*.es6",
+      "rx": "node_modules/angular2/node_modules/rx/dist/rx.js"
+    }
+  };
+
+  var Builder = require('systemjs-builder');
+  var builder = new Builder(buildConfig);
+
+  return builder.build('angular2/router', 'dist/lib/router.js', {});
+});
+
 gulp.task('default', ['js', 'html', 'css', 'libs'], function() {
   browserSync({
     notify: false,
@@ -83,6 +121,7 @@ gulp.task('default', ['js', 'html', 'css', 'libs'], function() {
     server: ['dist']
   });
 
-  gulp.watch(PATHS.src.html, reload);
-  gulp.watch(PATHS.src.js, reload);
+  gulp.watch(PATHS.src.html, ['html', reload]);
+  gulp.watch(PATHS.src.js, ['js', reload]);
+  gulp.watch(PATHS.src.css.all, ['css', reload]);
 });
