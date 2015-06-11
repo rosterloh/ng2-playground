@@ -13,6 +13,7 @@ var reload = browserSync.reload;
 var PATHS = {
     src: {
       js: 'src/**/*.js',
+      ts: 'src/**/*.ts',
       html: 'src/**/*.html',
       css: {
         main: 'src/index.css',
@@ -20,8 +21,9 @@ var PATHS = {
       }
     },
     lib: [
-      'node_modules/gulp-traceur/node_modules/traceur/bin/traceur-runtime.js',
-      'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.src.js',
+      'node_modules/angular2/node_modules/traceur/bin/traceur-runtime.js',
+      'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.js',
+      'node_modules/es6-module-loader/dist/es6-module-loader-sans-promises.map',
       'node_modules/systemjs/lib/extension-register.js',
       'node_modules/angular2/node_modules/zone.js/dist/zone.js',
       'node_modules/angular2/node_modules/zone.js/dist/long-stack-trace-zone.js',
@@ -34,6 +36,21 @@ var PATHS = {
 
 gulp.task('clean', function(done) {
   del(['dist'], done);
+});
+
+var tsProject = $.typescript().createProject('tsconfig.json', {
+    typescript: require('typescript')
+});
+
+gulp.task('build', ['clean'], function () {
+    var result = gulp.src(PATHS.src.ts)
+        .pipe($.plumber())
+        .pipe($.sourcemaps().init())
+        .pipe($.typescript(tsProject));
+
+    return result.js
+      .pipe($.sourcemaps().write())
+      .pipe(gulp.dest('dist'));
 });
 
 gulp.task('js', function () {

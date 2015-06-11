@@ -1,22 +1,26 @@
+/// <reference path="../../typings/tsd.d.ts" />
+
 import {Component, View} from 'angular2/angular2';
 import {status, json} from '../utils/fetch';
 import { Router, RouterLink } from 'angular2/router';
 
+let styles   = require('./login.css');
+let template = require('./login.html');
+
 @Component({
-  selector: 'signup'
+  selector: 'login'
 })
 @View({
-  templateUrl: 'signup/signup.html',
+  template:`<style>${styles}</style>\n${template}`,
   directives: [RouterLink]
 })
-export class Signup {
-  constructor(router: Router) {
-    this.router = router;
+export class Login {
+  constructor(public router: Router) {
   }
 
-  signup(event, username, password) {
+  login(event, username, password) {
     event.preventDefault();
-    fetch('http://localhost:3001/users', {
+    window.fetch('http://localhost:3001/sessions/create', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -38,9 +42,8 @@ export class Signup {
     });
   }
 
-  login(event) {
+  signup(event) {
     event.preventDefault();
-    this.router.parent.navigate('/login');
+    this.router.parent.navigate('/signup');
   }
-
 }

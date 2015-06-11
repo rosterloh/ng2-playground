@@ -14,11 +14,11 @@
 
   <section id="main">
     <input id="toggle-all" type="checkbox" (click)="toggleAll($event)">
-    <label for="toggle-all">Mark all as complete</label>
+    <label ng-for="toggle-all">Mark all as complete</label>
 
     <ul id="todo-list">
 
-      <li *for="#todo of todoService.list">
+      <li *ng-for="#todo of todoService.list">
 
         <div class="view"
             [class.hidden]="todoEdit == todo">
