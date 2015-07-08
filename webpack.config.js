@@ -2,20 +2,6 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
-var path = require('path');
-
-function getBanner() {
-  return 'This is a sample that shows how to add authentication to an Angular 2 (ng2) app by @auth0';
-}
-
-function root(args) {
-  args = sliceArgs(arguments, 0);
-  return path.join.apply(path, [__dirname].concat(args));
-}
-function rootNode(args) {
-  args = sliceArgs(arguments, 0);
-  return root.apply(path, ['node_modules'].concat(args));
-}
 
 module.exports = {
   devtool: 'source-map',
@@ -129,3 +115,16 @@ module.exports = {
   context: __dirname,
   stats: { colors: true, reasons: true }
 };
+
+function getBanner() {
+  return 'This is a sample that shows how to add authentication to an Angular 2 (ng2) app by @auth0';
+}
+
+function root(args) {
+  args = sliceArgs(arguments, 0);
+  return path.join.apply(path, [__dirname].concat(args));
+}
+function rootNode(args) {
+  args = sliceArgs(arguments, 0);
+  return root.apply(path, ['node_modules'].concat(args));
+}

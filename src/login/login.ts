@@ -11,7 +11,8 @@ let template = require('./login.html');
   selector: 'login'
 })
 @View({
-  template:`<style>${styles}</style>\n${template}`,
+  styles: [ styles ],
+  template: template,
   directives: [RouterLink]
 })
 export class Login {
