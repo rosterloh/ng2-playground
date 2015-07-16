@@ -1,0 +1,13 @@
+@import 'material-design-lite';
+
+main {
+  padding: 8px;
+  padding-top: 48px;
+}
+.mdl-layout__content section:not(:last-of-type) {
+  position: relative;
+  margin-bottom: 48px;
+}
+section.section--center {
+  max-width: 860px;
+}

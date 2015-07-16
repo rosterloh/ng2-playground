@@ -8,16 +8,14 @@
         "removeComments": true,
         "noLib": false,
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
         "sourceMap": true,
         "listFiles": true,
         "outDir": "dist"
     },
     "files": [
-        "node_modules/typescript/bin/dom.d.ts",
-        "src/custom_typings/ng2.d.ts",
-        "typings/tsd.d.ts",
-        "src/components/app.ts",
-        "src/bootstrap.ts"
+        "node_modules/typescript/bin/lib.dom.d.ts",
+        "src/typings/_custom.d.ts",
+        "src/app/components/app.ts",
+        "src/app/bootstrap.ts"
     ]
 }

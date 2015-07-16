@@ -8,3 +8,14 @@ Project to begin playing with Angular2.0
 ```bash
 $ npm start # then open your browser and go to http://localhost:3000
 ```
+
+## Typings
+
+Custom typings are installed in the src/Typings folder library typings can be installed with
+```bash
+$ tsd install
+```
+or updated with
+```bash
+$ tsd update -so
+```

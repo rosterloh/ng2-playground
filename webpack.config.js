@@ -6,13 +6,22 @@ var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
 module.exports = {
   devtool: 'source-map',
   // devtool: 'eval',
+  debug: true,
+  cache: true,
+  // our Development Server configs
+  devServer: {
+    inline: true,
+    colors: true,
+    historyApiFallback: true,
+    contentBase: 'src/public',
+    publicPath: '/__build__'
+  },
 
-  //
   entry: {
     angular2: [
       // Angular 2 Deps
       'angular2/node_modules/zone.js',
-      // 'zone.js/dist/long-stack-trace-zone.js',
+      // 'angular2/node_modules/zone.js/dist/long-stack-trace-zone.js',
       'reflect-metadata',
       'angular2/node_modules/rtts_assert/rtts_assert',
 
@@ -28,13 +37,16 @@ module.exports = {
       /*
       // * include any 3rd party js lib here
       */
-      './src/index'
+      './node_modules/whatwg-fetch/fetch',
+      './node_modules/jwt-decode/build/jwt-decode',
+      './node_modules/material-design-lite/material',
+      './src/app/bootstrap'
     ]
   },
 
   // Config for our build files
   output: {
-    path: root('build'),
+    path: root('__build__'),
     filename: '[name].js',
     // filename: '[name].[hash].js',
     sourceMapFilename: '[name].js.map',
@@ -44,21 +56,27 @@ module.exports = {
 
   resolve: {
     root: __dirname,
-    extensions: [
-      '',
-      '.ts',
-      '.js',
-      '.json',
-      '.webpack.js',
-      '.web.js'
-    ],
+    extensions: ['','.ts','.js','.json'],
     alias: {
-      // When Angular2 has a TypeScript build
       // we can switch between development and production
-      // 'angular2': 'angular2/es6/prod',
-      // 'angular2': 'angular2/es6/dev',
-      'webapp': 'src'
+      // 'angular2': 'node_modules/angular2/ts',
+      // 'angular2': 'angular2/ts/dev',
+      'app': 'src/app',
+      'common': 'src/common',
+
+      // 'components': 'src/app/components'
+      // 'services': '/app/services/*.js',
+      // 'stores/*': '/app/stores/*.js'
+      // 'angular2': 'angular2/es6/dev'
     }
+  },
+
+  /*
+   * When using `templateUrl` and `styleUrls` please use `__filename`
+   * rather than `module.id` for `moduleId` in `@View`
+   */
+  node: {
+    __filename: true
   },
 
   module: {
@@ -73,7 +91,12 @@ module.exports = {
       { test: /\.html$/,  loader: 'raw' },
 
       // Support for .ts files.
-      { test: /\.ts$/,    loader: 'typescript-simple' }
+      { test: /^(?!.*(spec|e2e)).*ts$/,    loader: 'typescript-simple?ignoreWarnings[]=2309', exclude: [
+          /web_modules/,
+          /test/,
+          /node_modules/
+        ]
+      }
     ],
     noParse: [
       /rtts_assert\/src\/rtts_assert/
@@ -91,26 +114,32 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'ENV': {
-        'type': JSON.stringify('development'),
+        'type': JSON.stringify(process.env.NODE_ENV),
         'debug': true
       }
     }),
+
+    // new HtmlWebpackPlugin({
+    //   inject: true,
+    //   template: './src/index.html',
+    //   title: getBanner(),
+    //   filename: '../index.html',
+    //   chunks: ['shared']
+    // }),
+
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     drop_debugger: false
+    //   }
+    // beautify: false
+    // }),
 
     // new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.BannerPlugin(getBanner())
   ],
-  // our Development Server configs
-  devServer: {
-    inline: true,
-    colors: true,
-    historyApiFallback: true,
-    contentBase: '.',
-    publicPath: '/build'
-  },
-  debug: true,
-  cache: true,
 
   context: __dirname,
   stats: { colors: true, reasons: true }
