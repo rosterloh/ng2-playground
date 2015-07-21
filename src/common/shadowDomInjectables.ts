@@ -21,8 +21,8 @@ export var emulatedScopedShadowDomInjectables = [
 
 // use EmulatedScope if Native is not supported
 export var nativeShadowDomInjectables = hasNativeShadowDom() ? [
-    bind(ShadowDomStrategy).toClass(NativeShadowDomStrategy)
-  ] : emulatedScopedShadowDomInjectables;
+  bind(ShadowDomStrategy).toClass(NativeShadowDomStrategy)
+] : emulatedScopedShadowDomInjectables;
 
 export var emulatedUnscopedShadowDomInjectables = [
   bind(ShadowDomStrategy).toFactory((doc) => {

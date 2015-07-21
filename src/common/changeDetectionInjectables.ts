@@ -21,5 +21,5 @@ export var preGeneratedInjectables = [
 
 export var bestChangeDetectionInjectables = [
   PreGeneratedChangeDetection.isSupported() ? preGeneratedInjectables :
-  JitChangeDetection.isSupported() ? jitInjectables : dynamicInjectables
+    JitChangeDetection.isSupported() ? jitInjectables : dynamicInjectables
 ];

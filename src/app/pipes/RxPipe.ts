@@ -16,8 +16,8 @@ export class RxPipe extends ObservablePipe {
   _subscribe(obs) {
     this._observable = obs;
     this._subscription = obs.subscribe(
-      value => this._updateLatestValue(value),
-      e => { throw e; }
+        value => this._updateLatestValue(value),
+        e => { throw e; }
     );
   }
 }

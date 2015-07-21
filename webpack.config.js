@@ -7,7 +7,7 @@ module.exports = {
   devtool: 'source-map',
   // devtool: 'eval',
   debug: true,
-  cache: true,
+  cache: false,
   // our Development Server configs
   devServer: {
     inline: true,
@@ -20,23 +20,16 @@ module.exports = {
   entry: {
     angular2: [
       // Angular 2 Deps
-      'angular2/node_modules/zone.js',
-      // 'angular2/node_modules/zone.js/dist/long-stack-trace-zone.js',
+      'zone.js',
       'reflect-metadata',
-      'angular2/node_modules/rtts_assert/rtts_assert',
-
-      './src/common/BrowserDomAdapter',
-
-      'angular2/angular2',
-      'angular2/router',
-      'angular2/di',
-      'angular2/src/facade/browser'
+      'rtts_assert/rtts_assert',
+      'angular2/angular2'
     ],
     app: [
       // App
       /*
-      // * include any 3rd party js lib here
-      */
+       * include any 3rd party js lib here
+       */
       './node_modules/whatwg-fetch/fetch',
       './node_modules/jwt-decode/build/jwt-decode',
       './node_modules/material-design-lite/material',
@@ -62,7 +55,7 @@ module.exports = {
       // 'angular2': 'node_modules/angular2/ts',
       // 'angular2': 'angular2/ts/dev',
       'app': 'src/app',
-      'common': 'src/common',
+      'common': 'src/common'
 
       // 'components': 'src/app/components'
       // 'services': '/app/services/*.js',
@@ -146,7 +139,7 @@ module.exports = {
 };
 
 function getBanner() {
-  return 'This is a sample that shows how to add authentication to an Angular 2 (ng2) app by @auth0';
+  return 'Angular 2 (ng2) app @richard84';
 }
 
 function root(args) {

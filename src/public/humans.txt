@@ -1,17 +1,13 @@
 # humanstxt.org/
-# The humans responsible & technology colophon
 
-# TEAM
+/* TEAM */
+  Chef: Richard Osterloh
+	Contact: richard.osterloh [at] gmail.com
+	Twitter: @richard84
+	From: Cape Town, South Africa
 
-  <name> -- <role> -- <twitter>
-
-# THANKS
-
-  <name>
-  PatrickJS -- @gdi2290
-  AngularClass -- @AngularClass
-
-# TECHNOLOGY COLOPHON
-
-  HTML5, CSS3
-  Angular2, TypeScript, Webpack
+/* SITE */
+	Last update: 2015/07/21
+	Language: English
+	Standards: HTML5, CSS3
+	Components: Angular2, TypeScript, Webpack

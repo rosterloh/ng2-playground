@@ -4,7 +4,7 @@
  * Angular 2
  */
 import {Component, View} from 'angular2/annotations';
-import {RouteConfig, Router} from 'angular2/router';
+import {RouteConfig} from 'angular2/router';
 
 /*
  * Directives
@@ -26,15 +26,16 @@ import {appPipes} from '../pipes/pipes';
  */
 // We use a folder if we want separate files
 import {Home} from './home/home';
-import {Login} from './login/login';
-import {Signup} from './signup/signup';
 // Otherwise we only use one file for a component
 import {Dashboard} from './dashboard';
 // A simple example of a Component using a Service
 import {Todo} from './todo';
 
+// RxJs examples
+import {RxJsExamples} from './rxjs-examples/rxjs-examples';
+
+// Use webpack's `require` to get files as a raw string using raw-loader
 let styles   = require('./app.css');
-let template = require('./app.html');
 
 /*
  * App Component
@@ -60,20 +61,48 @@ let template = require('./app.html');
     // Our collection of directives from /directives
     appDirectives
   ],
+  // include our .css file
   styles: [ styles ],
-  template: template
+  template: `
+    <header>
+      <div layout="row" class="top-nav ac-default-theme">
+        <img src="angular-shield.png" alt="Angular2" height="54" width="54">
+        <span class="logo">{{ name | capitalize }} + Webpack</span>
+        <ul>
+          <li class="l-left">
+            <a [router-link]=" ['/home'] "class="top-nav-button ac-default-theme">Home</a>
+          </li>
+          <li class="l-left">
+            <a [router-link]=" ['/dashboard'] "class="top-nav-button ac-default-theme">Dashboard</a>
+          </li>
+          <li class="l-left">
+            <a [router-link]=" ['/todo'] "class="top-nav-button ac-default-theme">Todo</a>
+          </li>
+          <li class="l-left">
+            <a [router-link]=" ['/rxjs-examples'] "class="top-nav-button ac-default-theme">RxJs Examples</a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer>
+      WebPack Angular 2 Starter by <a href="https://twitter.com/AngularClass">@AngularClass</a>
+    </footer>
+  `
 })
 @RouteConfig([
-  { path: '/',          redirectTo: '/home' },
-  { path: '/home',      as: 'home',       component: Home },
-  { path: '/login',     as: 'login',      component: Login },
-  { path: '/signup',    as: 'signup',     component: Signup },
-  { path: '/dashboard', as: 'dashboard',  component: Dashboard },
-  { path: '/todo',      as: 'todo',       component: Todo }
+  { path: '/',              as: 'home',          component: Home },
+  { path: '/dashboard',     as: 'dashboard',     component: Dashboard },
+  { path: '/todo',          as: 'todo',          component: Todo },
+  { path: '/rxjs-examples', as: 'rxjs-examples', component: RxJsExamples }
 ])
 export class App {
   name: string;
-  constructor(public router: Router) {
-    this.name = 'angular 2';
+  constructor() {
+    this.name = 'angular'; // used in logo
   }
 }

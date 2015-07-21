@@ -31,6 +31,9 @@ import {TodoService} from '../services/TodoService';
     .error-message {
       color: red;
     }
+    form {
+      padding:16px;
+    }
   </style>
   <form
     [ng-form-model]="todoForm"
