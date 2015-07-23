@@ -5,35 +5,32 @@
   "path": "tsd_typings",
   "bundle": "tsd_typings/tsd.d.ts",
   "installed": {
-    "node/node.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
-    },
     "es6-promise/es6-promise.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
-    },
-    "express/express.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
-    },
-    "mime/mime.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     },
     "angular2/angular2.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     },
     "angular2/router.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     },
     "rx/rx.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     },
     "rx/rx-lite.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     },
     "whatwg-fetch/whatwg-fetch.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     },
-    "serve-static/serve-static.d.ts": {
-      "commit": "8f51d25ad3523cd01f2d92e343247852f6b70dff"
+    "jasmine/jasmine.d.ts": {
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
+    },
+    "angular-protractor/angular-protractor.d.ts": {
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
+    },
+    "selenium-webdriver/selenium-webdriver.d.ts": {
+      "commit": "581563c4684d405afec14260ba79a89a52666c09"
     }
   }
 }

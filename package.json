@@ -26,11 +26,11 @@
   },
   "homepage": "https://github.com/rosterloh/ng2-playground",
   "dependencies": {
-    "angular2": "^2.0.0-alpha.31",
+    "angular2": "^2.0.0-alpha.32",
     "jwt-decode": "^1.4.0",
     "material-design-lite": "1.0.0-3",
     "reflect-metadata": "^0.1.0",
-    "rtts_assert": "^2.0.0-alpha.31",
+    "rtts_assert": "^2.0.0-alpha.32",
     "rx": "^2.5.3",
     "whatwg-fetch": "^0.9.0",
     "zone.js": "^0.5.2"
@@ -43,7 +43,7 @@
     "html-webpack-plugin": "^1.6.0",
     "imports-loader": "^0.6.4",
     "json-loader": "^0.5.2",
-    "karma": "^0.13.2",
+    "karma": "^0.13.3",
     "karma-chrome-launcher": "^0.2.0",
     "karma-coverage": "^0.4.2",
     "karma-jasmine": "^0.3.6",
@@ -59,7 +59,7 @@
     "typescript": "^1.5.3",
     "typescript-simple-loader": "^0.3.3",
     "url-loader": "^0.5.6",
-    "webpack": "^1.10.1",
+    "webpack": "^1.10.3",
     "webpack-dev-server": "^1.10.1",
     "xtend": "^4.0.0"
   }
