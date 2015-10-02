@@ -1,13 +1,23 @@
 'use strict';
 
-// Helper
+/*
+ * Helper
+ * env(), getBanner(), root(), and rootDir()
+ * are defined at the bottom
+ */
 var sliceArgs = Function.prototype.call.bind(Array.prototype.slice);
-var NODE_ENV = process.env.NODE_ENV || 'development';
+var toString  = Function.prototype.call.bind(Object.prototype.toString);
+var NODE_ENV  = process.env.NODE_ENV || 'development';
+var pkg = require('./package.json');
+
+// Polyfill
+Object.assign = require('object-assign');
 
 // Node
-var webpack = require('webpack');
 var path = require('path');
-var pkg  = require('./package.json');
+
+// NPM
+var webpack = require('webpack');
 
 // Webpack Plugins
 var OccurenceOrderPlugin = webpack.optimize.OccurenceOrderPlugin;
@@ -20,13 +30,31 @@ var BannerPlugin   = webpack.BannerPlugin;
 /*
  * Config
  */
- var config = {
-  devtool: 'source-map',
-  // devtool: 'eval',
+module.exports = {
+  devtool: env({
+    'development': 'eval',
+    'all': 'source-map'
+  }),
 
-  debug: true,
-  cache: true,
-  // our Development Server configs
+  debug: env({
+    'development': true,
+    'all': false
+  }),
+  cache: env({
+    // 'development': false
+    'all': true
+  }),
+  verbose: true,
+  displayErrorDetails: true,
+  context: __dirname,
+  stats: env({
+    'all': {
+      colors: true,
+      reasons: true
+    }
+  }),
+
+  // our Development Server config
   devServer: {
     inline: true,
     colors: true,
@@ -35,22 +63,33 @@ var BannerPlugin   = webpack.BannerPlugin;
     publicPath: '/__build__'
   },
 
+  //
   entry: {
-    angular2: [
+    'angular2': [
       // Angular 2 Deps
+      'rx',
       'zone.js',
       'reflect-metadata',
-      'rtts_assert/rtts_assert',
-      'angular2/angular2'
+      // to ensure these modules are grouped together in one file
+      'angular2/angular2',
+      'angular2/forms',
+      'angular2/core',
+      'angular2/router',
+      'angular2/http',
+      'angular2/debug',
+      'angular2/di'
     ],
-    app: [
+    'app': [
       // App
-      /*
-       * include any 3rd party js lib here
-       */
-      './node_modules/whatwg-fetch/fetch',
-      './node_modules/jwt-decode/build/jwt-decode',
-      './node_modules/material-design-lite/material',
+
+      // './examples/  /bootstrap' <-- view examples
+
+      // './examples/rx-autosuggest/bootstrap'
+      // './examples/rx-draggable/bootstrap'
+      // './examples/rx-draggable/bootstrap'
+      // './examples/simple-component/bootstrap'
+      // './examples/simple-todo/bootstrap'
+
       './src/app/bootstrap'
     ]
   },
@@ -58,9 +97,14 @@ var BannerPlugin   = webpack.BannerPlugin;
   // Config for our build files
   output: {
     path: root('__build__'),
-    filename: '[name].js',
-    // filename: '[name].[hash].js',
-    sourceMapFilename: '[name].js.map',
+    filename: env({
+      'development': '[name].js',
+      'all': '[name].[hash].min.js'
+    }),
+    sourceMapFilename: env({
+      'development': '[name].js.map',
+      'all': '[name].[hash].min.js.map'
+    }),
     chunkFilename: '[id].chunk.js'
     // publicPath: 'http://mycdn.com/'
   },
@@ -69,26 +113,13 @@ var BannerPlugin   = webpack.BannerPlugin;
     root: __dirname,
     extensions: ['','.ts','.js','.json'],
     alias: {
-      // we can switch between development and production
-      // 'angular2': 'node_modules/angular2/ts',
-      // 'angular2': 'angular2/ts/dev',
-
-      'app': 'src/app',
-      'common': 'src/common'
-
+      // 'app': 'src/app',
+      // 'common': 'src/common',
+      // 'bindings': 'src/bindings',
       // 'components': 'src/app/components'
-      // 'services': '/app/services/*.js',
-      // 'stores/*': '/app/stores/*.js'
-      // 'angular2': 'angular2/es6/dev'
+      // 'services': 'src/app/services',
+      // 'stores': 'src/app/stores'
     }
-  },
-
-  /*
-   * When using `templateUrl` and `styleUrls` please use `__filename`
-   * rather than `module.id` for `moduleId` in `@View`
-   */
-  node: {
-    __filename: true
   },
 
   module: {
@@ -103,7 +134,17 @@ var BannerPlugin   = webpack.BannerPlugin;
       { test: /\.html$/,  loader: 'raw' },
 
       // Support for .ts files.
-      { test: /\.ts$/,    loader: 'typescript-simple?ignoreWarnings[]=2345', exclude: [
+      { test: /\.ts$/,    loader: 'typescript-simple',
+        query: {
+          'ignoreWarnings': [
+            2300, // 2300 -> Duplicate identifier
+            2309, // 2309 -> An export assignment cannot be used in a module with other exported elements.
+            2346, // 2346 -> Supplied parameters do not match any signature of call target.
+            2432  // 2432 -> In an enum with multiple declarations, only one declaration can omit an initializer for its first enum element.
+          ]
+        },
+        exclude: [
+          /\.min\.js$/,
           /\.spec\.ts$/,
           /\.e2e\.ts$/,
           /web_modules/,
@@ -113,91 +154,90 @@ var BannerPlugin   = webpack.BannerPlugin;
       }
     ],
     noParse: [
-      /rtts_assert\/src\/rtts_assert/
-    ],
+      /rtts_assert\/src\/rtts_assert/,
+      /reflect-metadata/
+    ]
   },
 
-  // plugins: plugins, // see below
-  context: __dirname,
-  stats: { colors: true, reasons: true }
+  plugins: env({
+    'production': [
+      new UglifyJsPlugin({
+        compress: {
+          warnings: false,
+          drop_debugger: env({
+            'development': false,
+            'all': true
+          })
+        },
+        output: {
+          comments: false
+        },
+        beautify: false
+      }),
+      new BannerPlugin(getBanner(), {entryOnly: true})
+    ],
+    'development': [
+      /* Dev Plugin */
+      // new webpack.HotModuleReplacementPlugin(),
+    ],
+    'all': [
+      new DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+        'VERSION': JSON.stringify(pkg.version)
+      }),
+      new OccurenceOrderPlugin(),
+      new DedupePlugin(),
+
+      new CommonsChunkPlugin({
+        name: 'angular2',
+        minChunks: Infinity,
+        filename: env({
+          'development': 'angular2.js',
+          'all': 'angular2.min.js'
+        })
+      }),
+      new CommonsChunkPlugin({
+        name: 'common',
+        filename: env({
+          'development': 'common.js',
+          'all': 'common.min.js'
+        })
+      })
+    ]
+
+  }),
+
+  /*
+   * When using `templateUrl` and `styleUrls` please use `__filename`
+   * rather than `module.id` for `moduleId` in `@View`
+   */
+  node: {
+    crypto: false,
+    __filename: true
+  }
 };
 
-var commons_chunks_plugins = [
-  {
-    name: 'angular2',
-    minChunks: Infinity,
-    filename: 'angular2.js'
-  },
-  {
-    name: 'common',
-    filename: 'common.js'
+// Helper functions
+
+function env(configEnv) {
+  if (configEnv === undefined) { return configEnv; }
+  switch (toString(configEnv[NODE_ENV])) {
+    case '[object Object]'    : return Object.assign({}, configEnv.all || {}, configEnv[NODE_ENV]);
+    case '[object Array]'     : return [].concat(configEnv.all || [], configEnv[NODE_ENV]);
+    case '[object Undefined]' : return configEnv.all;
+    default                   : return configEnv[NODE_ENV];
   }
-];
-
-//
-var environment_plugins = {
-
-  all: [
-    new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-      'VERSION': pkg.version
-    }),
-    new OccurenceOrderPlugin(),
-    new DedupePlugin(),
-  ],
-
-  production: [
-    new UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_debugger: false
-      },
-      output: {
-        comments: false
-      },
-      beautify: false
-    }),
-    new BannerPlugin(getBanner(), {entryOnly: true})
-  ],
-
-  development: [
-    /* Dev Plugin */
-    // new webpack.HotModuleReplacementPlugin(),
-  ]
-
-};//env
-
-if (NODE_ENV === 'production') {
-  // replace filename `.js` with `.min.js`
-  config.output.filename = config.output.filename.replace('.js', '.min.js');
-  config.output.sourceMapFilename = config.output.sourceMapFilename.replace('.js', '.min.js');
-  commons_chunks_plugins = commons_chunks_plugins.map(function(chunk) {
-    return chunk.filename.replace('.js', '.min.js');
-  });
 }
-else if (NODE_ENV === 'development') {
-  // any development actions here
-}
-
-// create CommonsChunkPlugin instance for each config
-var combine_common_chunks = commons_chunks_plugins.map(function(config) {
-  return new CommonsChunkPlugin(config);
-});
-
-// conbine everything
-config.plugins = [].concat(combine_common_chunks, environment_plugins.all, environment_plugins[NODE_ENV]);
-
-
-module.exports = config;
 
 function getBanner() {
-  return 'Angular 2 (ng2) app v'+ pkg.version +' by @richard84';
+  return 'Angular2 Webpack Starter v'+ pkg.version +' by @gdi2990 from @AngularClass';
 }
 
 function root(args) {
   args = sliceArgs(arguments, 0);
   return path.join.apply(path, [__dirname].concat(args));
 }
+
 function rootNode(args) {
   args = sliceArgs(arguments, 0);
   return root.apply(path, ['node_modules'].concat(args));

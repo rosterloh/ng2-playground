@@ -1,5 +1,45 @@
 declare var zone: any;
 declare var Zone: any;
+interface Type extends Function {
+  new (...args: any[]): any;
+}
+
+declare module "angular2/router" {
+  var ROUTER_BINDINGS: any;
+  var ROUTER_DIRECTIVES: any;
+  var RouteConfig: any;
+  class Router {
+  }
+
+  class Route {
+    new (config: any): any;
+    constructor(config: any);
+  }
+  class AuxRoute {
+    new (config: any): any;
+    constructor(config: any);
+  }
+  class AsyncRoute {
+    new (config: any): any;
+    constructor(config: any);
+  }
+  class Redirect {
+    new (config: any): any;
+    constructor(config: any);
+  }
+}
+
+declare module "angular2/tools" {
+  function enableDebugTools(appRef: any): any;
+}
+
+declare module "angular2/debug" {
+  var ELEMENT_PROBE_BINDINGS: any;
+  class DebugElementViewListener {
+
+  }
+  function inspectNativeElement(element: any): any;
+}
 
 declare module "angular2/test" {
   class TestComponentBuilder {}
@@ -13,100 +53,54 @@ declare module "angular2/test" {
   function verifyNoBrowserErrors(): void;
 }
 
-declare module "angular2/src/dom/browser_adapter" {
-  class BrowserDomAdapter {
-    static makeCurrent(): void;
-    logError(error: any): void;
-    attrToPropMap: any;
-    query(selector: string): any;
-    querySelector(el: any, selector: string): Node;
-    querySelectorAll(el: any, selector: string): List<any>;
-    on(el: any, evt: any, listener: any): void;
-    onAndCancel(el: any, evt: any, listener: any): Function;
-    dispatchEvent(el: any, evt: any): void;
-    createMouseEvent(eventType: string): MouseEvent;
-    createEvent(eventType: any): Event;
-    getInnerHTML(el: any): any;
-    getOuterHTML(el: any): any;
-    nodeName(node: Node): string;
-    nodeValue(node: Node): string;
-    type(node: HTMLInputElement): string;
-    content(node: Node): Node;
-    firstChild(el: any): Node;
-    nextSibling(el: any): Node;
-    parentElement(el: any): any;
-    childNodes(el: any): List<Node>;
-    childNodesAsList(el: any): List<any>;
-    clearNodes(el: any): void;
-    appendChild(el: any, node: any): void;
-    removeChild(el: any, node: any): void;
-    replaceChild(el: Node, newChild: any, oldChild: any): void;
-    remove(el: any): any;
-    insertBefore(el: any, node: any): void;
-    insertAllBefore(el: any, nodes: any): void;
-    insertAfter(el: any, node: any): void;
-    setInnerHTML(el: any, value: any): void;
-    getText(el: any): any;
-    setText(el: any, value: string): void;
-    getValue(el: any): any;
-    setValue(el: any, value: string): void;
-    getChecked(el: any): any;
-    setChecked(el: any, value: boolean): void;
-    createTemplate(html: any): HTMLElement;
-    createElement(tagName: any, doc?: Document): HTMLElement;
-    createTextNode(text: string, doc?: Document): Text;
-    createScriptTag(attrName: string, attrValue: string, doc?: Document): HTMLScriptElement;
-    createStyleElement(css: string, doc?: Document): HTMLStyleElement;
-    createShadowRoot(el: HTMLElement): DocumentFragment;
-    getShadowRoot(el: HTMLElement): DocumentFragment;
-    getHost(el: HTMLElement): HTMLElement;
-    clone(node: Node): Node;
-    hasProperty(element: any, name: string): boolean;
-    getElementsByClassName(element: any, name: string): any;
-    getElementsByTagName(element: any, name: string): any;
-    classList(element: any): List<any>;
-    addClass(element: any, classname: string): void;
-    removeClass(element: any, classname: string): void;
-    hasClass(element: any, classname: string): any;
-    setStyle(element: any, stylename: string, stylevalue: string): void;
-    removeStyle(element: any, stylename: string): void;
-    getStyle(element: any, stylename: string): any;
-    tagName(element: any): string;
-    attributeMap(element: any): any;
-    hasAttribute(element: any, attribute: string): any;
-    getAttribute(element: any, attribute: string): any;
-    setAttribute(element: any, name: string, value: string): void;
-    removeAttribute(element: any, attribute: string): any;
-    templateAwareRoot(el: any): any;
-    createHtmlDocument(): Document;
-    defaultDoc(): Document;
-    getBoundingClientRect(el: any): any;
-    getTitle(): string;
-    setTitle(newTitle: string): void;
-    elementMatches(n: any, selector: string): boolean;
-    isTemplateElement(el: any): boolean;
-    isTextNode(node: Node): boolean;
-    isCommentNode(node: Node): boolean;
-    isElementNode(node: Node): boolean;
-    hasShadowRoot(node: any): boolean;
-    isShadowRoot(node: any): boolean;
-    importIntoDoc(node: Node): Node;
-    isPageRule(rule: any): boolean;
-    isStyleRule(rule: any): boolean;
-    isMediaRule(rule: any): boolean;
-    isKeyframesRule(rule: any): boolean;
-    getHref(el: Element): string;
-    getEventKey(event: any): string;
-    getGlobalEventTarget(target: string): EventTarget;
-    getHistory(): History;
-    getLocation(): Location;
-    getBaseHref(): any;
+declare module "angular2/pipes" {
+  class ObservablePipe {
+    constructor(ref?: any);
+    _subscription: any;
+    _observable: any;
+    _updateLatestValue(value: any): any;
+    _subscribe(obs: any): any;
+    transform(obs: any, args?: Array<any>): any;
+    onDestroy(): void;
   }
+  class AsyncPipe {}
+}
+
+declare module "angular2/annotations" {
+  var Component: any;
+  var View: any;
+  var Directive: any;
+  var Query: any;
+}
+
+declare module "angular2/http" {
+  class Http {
+    _backend: any;
+    _defaultOptions: any;
+    constructor(_backend?: any, _defaultOptions?: any);
+    request(url: string, options?: any): any;
+    get(url: string, options?: any): any;
+    post(url: string, body: any, options?: any): any;
+    put(url: string, body: any, options?: any): any;
+    delete(url: string, options?: any): any;
+    patch(url: string, body: any, options?: any): any;
+    head(url: string, options?: any): any;
+  }
+  class HttpFactory {}
+  class MockBackend {
+    constructor(req: any);
+  }
+  class Headers {
+    constructor(config: any);
+  }
+  class XHRBackend {}
+  class BaseRequestOptions {}
+  var httpInjectables: Array<any>;
 }
 
 declare module "angular2/src/core/life_cycle/life_cycle" {
   class LifeCycle {
-    constructor(...args)
+    constructor(...args);
     tick(): any;
   }
 }
@@ -125,7 +119,7 @@ declare module "angular2/src/render/dom/compiler/style_inliner" {
 
 declare module "angular2/src/core/compiler/view_resolver" {
   class ViewResolver {
-    resolve(appComponent: any): any
+    resolve(appComponent: any): any;
   }
 }
 
@@ -191,13 +185,13 @@ declare module "angular2/src/render/dom/shadow_dom/style_inliner" {
 }
 declare module "angular2/src/core/compiler/dynamic_component_loader" {
   class ComponentRef {
-    constructor(newLocation: any, component: any, dispose: any)
+    constructor(newLocation: any, component: any, dispose: any);
     location: any
     instance: any
     dispose: any
   }
   class DynamicComponentLoader {
-    loadAsRoot(appComponentType: any, bindings: any, injector: any): any
+    loadAsRoot(appComponentType: any, bindings: any, injector: any): any;
   }
 }
 declare module "angular2/src/core/testability/testability" {
@@ -255,8 +249,8 @@ declare module "angular2/src/render/dom/view/proto_view" {
   class DomProtoView {
     rootBindingOffset: any;
     element: any;
-    isTemplateElement(): any
-    elementBinders(): any
+    isTemplateElement(): any;
+    elementBinders(): any;
   }
 
 }
@@ -273,9 +267,9 @@ declare module "angular2/src/render/dom/util" {
 
 declare module "angular2/src/render/dom/dom_renderer" {
   class DomRenderer {
-    _moveViewNodesIntoParent(): any
-    _createGlobalEventListener(): any
-    _createEventListener(): any
+    _moveViewNodesIntoParent(): any;
+    _createGlobalEventListener(): any;
+    _createEventListener(): any;
   }
   var DOCUMENT_TOKEN: any;
 }
@@ -303,22 +297,22 @@ declare module "angular2/src/render/dom/view/view" {
 
   }
   class DomView {
-    viewContainers(): any
+    viewContainers(): any;
   }
   function resolveInternalDomView(viewRef: any): any;
 }
 declare module "angular2/src/render/dom/shadow_dom/shadow_dom_strategy" {
   class ShadowDomStrategy {
-    prepareShadowRoot(element: any): any
-    constructLightDom(lightDomView: any, el: any): any
+    prepareShadowRoot(element: any): any;
+    constructLightDom(lightDomView: any, el: any): any;
   }
 }
 
 declare module "angular2/src/render/dom/events/event_manager" {
   class EventManager {
-    constructor(...args)
-    addEventListener(element: any, eventName: string, handler: Function): any
-    addGlobalEventListener(target: string, eventName: string, handler: Function): any
+    constructor(...args);
+    addEventListener(element: any, eventName: string, handler: Function): any;
+    addGlobalEventListener(target: string, eventName: string, handler: Function): any;
   }
   class DomEventsPlugin {
 
@@ -357,32 +351,41 @@ declare module "angular2/src/change_detection/change_detection" {
   var async: any;
 }
 
-declare module "angular2/pipes" {
-  class ObservablePipe {
-    constructor(ref: any)
-    _subscription: any;
-    _observable: any;
-    _updateLatestValue(value: any): any;
-    _subscribe(obs: any): any;
-  }
-}
-
 declare module "angular2/change_detection" {
   interface PipeFactory {}
-  interface Pipe {}
-  class Pipes {
-    static extend(pipes: any)
+  interface Pipe {
+    supports(obj: any): boolean;
+    onDestroy(): void;
+    transform(value: any, args: Array<any>): any;
   }
-  class BasePipe implements Pipe {}
+  class Pipes {
+    static extend(pipes: any);
+  }
   class NullPipeFactory {}
   class PipeRegistry {
-    constructor(pipes: any)
+    constructor(pipes: any);
   }
   class WrappedValue {
-    static wrap(...args): any
+    static wrap(...args): any;
   }
   class ChangeDetectorRef {
     requestCheck(): void;
+  }
+  class ObservablePipe implements Pipe {
+    constructor(ref: any);
+    _subscription: any;
+    _observable: any;
+    _updateLatestValue(value: any): any;
+    _subscribe(obs: any): void;
+
+    _latestValue: any;
+    _latestReturnedValue: any;
+
+    _dispose(): void;
+
+    supports(obj: any): boolean;
+    onDestroy(): void;
+    transform(value: any, args: Array<any>): any;
   }
   var defaultPipeRegistry: any;
   var defaultPipes: any;
@@ -408,17 +411,17 @@ declare module "angular2/change_detection" {
 
 declare module "angular2/src/core/zone/ng_zone" {
   class NgZone {
-    constructor(config: any)
-    initCallbacks(config: any): any
+    constructor(config: any);
+    initCallbacks(config: any): any;
     runOutsideAngular(context: any): any;
-    run(context: any): any
+    run(context: any): any;
   }
 }
 
 
 declare module "angular2/src/core/compiler/element_ref" {
   class ElementRef {
-    constructor(host: any, location?: any)
+    constructor(host: any, location?: any);
     nativeElement: any;
   }
 }
@@ -450,9 +453,58 @@ declare module "angular2/src/core/compiler/compiler" {
 }
 
 declare module "angular2/forms" {
-  class Validators {
-    static required(): any
+  var formDirectives: any;
+  var formInjectables: any;
+  class FormBuilder {
+    group(config: any): any;
+    array(): any;
   }
+  class Validators {
+    static required(): any;
+  }
+  class ControlGroup {
+    value: any
+    controls: any
+    include(): any;
+    exclude(): any;
+  }
+  class Control {
+    valueChanges(): any;
+  }
+  class ControlArray {
+    push(): any;
+    removeAt(): any;
+  }
+
+  class NgControlName {
+
+  }
+  class NgControlGroup {
+
+  }
+  class NgFormControl {
+
+  }
+  class NgModel {
+
+  }
+  class NgFormModel {
+
+  }
+  class NgForm {
+
+  }
+  class NgSelectOption {
+
+  }
+  class NgRequiredValidator {
+
+  }
+  class NgControl {
+    control: any;
+    valueAccessor: any;
+  }
+
 }
 
 declare module "angular2/src/render/dom/shadow_dom/emulated_unscoped_shadow_dom_strategy" {
@@ -464,6 +516,19 @@ declare module "angular2/src/render/dom/shadow_dom/emulated_unscoped_shadow_dom_
     constructLightDom(lightDomView: any, el: any): any;
     processStyleElement(hostComponentId: string, templateUrl: string, styleEl: any): void;
 
+  }
+}
+
+declare module "angular2/core" {
+  class ElementRef {
+    constructor(host: any, location?: any);
+    nativeElement: any;
+  }
+  class QueryList<T> {
+    onChange(callback: any): void;
+  }
+  class DirectiveResolver {
+    resolve(appComponent: any): any;
   }
 }
 
@@ -564,7 +629,7 @@ declare module "angular2/render" {
     /**
      * Calls a method on an element.
      */
-    invokeElementMethod(location: any, methodName: string, args: List<any>): void;
+    invokeElementMethod(location: any, methodName: string, args: Array<any>): void;
     /**
      * Sets the value of a text node.
      */
@@ -645,6 +710,340 @@ declare module "angular2/src/facade/lang" {
 
 declare module "angular2/src/core/compiler/directive_resolver" {
   class DirectiveResolver {
-    resolve(appComponent: any): any
+    resolve(appComponent: any): any;
   }
+}
+
+declare module "angular2/src/router/route_registry" {
+  class RouteRegistry {}
+}
+
+declare module "angular2/src/router/pipeline" {
+  class Pipeline {}
+}
+
+declare module "angular2/src/router/instruction" {
+  class Instruction {
+    component: any;
+    params: any;
+    reuse: any;
+    child: any;
+  }
+}
+
+declare module "angular2/src/dom/browser_adapter" {
+    class BrowserDomAdapter {
+        static makeCurrent(): void;
+        logError(error: any): void;
+        attrToPropMap: any;
+        query(selector: string): any;
+        querySelector(el: any, selector: string): Node;
+        querySelectorAll(el: any, selector: string): Array<any>;
+        on(el: any, evt: any, listener: any): void;
+        onAndCancel(el: any, evt: any, listener: any): Function;
+        dispatchEvent(el: any, evt: any): void;
+        createMouseEvent(eventType: string): MouseEvent;
+        createEvent(eventType: any): Event;
+        getInnerHTML(el: any): any;
+        getOuterHTML(el: any): any;
+        nodeName(node: Node): string;
+        nodeValue(node: Node): string;
+        type(node: HTMLInputElement): string;
+        content(node: Node): Node;
+        firstChild(el: any): Node;
+        nextSibling(el: any): Node;
+        parentElement(el: any): any;
+        childNodes(el: any): Array<Node>;
+        childNodesAsList(el: any): Array<any>;
+        clearNodes(el: any): void;
+        appendChild(el: any, node: any): void;
+        removeChild(el: any, node: any): void;
+        replaceChild(el: Node, newChild: any, oldChild: any): void;
+        remove(el: any): any;
+        insertBefore(el: any, node: any): void;
+        insertAllBefore(el: any, nodes: any): void;
+        insertAfter(el: any, node: any): void;
+        setInnerHTML(el: any, value: any): void;
+        getText(el: any): any;
+        setText(el: any, value: string): void;
+        getValue(el: any): any;
+        setValue(el: any, value: string): void;
+        getChecked(el: any): any;
+        setChecked(el: any, value: boolean): void;
+        createTemplate(html: any): HTMLElement;
+        createElement(tagName: any, doc?: Document): HTMLElement;
+        createTextNode(text: string, doc?: Document): Text;
+        createScriptTag(attrName: string, attrValue: string, doc?: Document): HTMLScriptElement;
+        createStyleElement(css: string, doc?: Document): HTMLStyleElement;
+        createShadowRoot(el: HTMLElement): DocumentFragment;
+        getShadowRoot(el: HTMLElement): DocumentFragment;
+        getHost(el: HTMLElement): HTMLElement;
+        clone(node: Node): Node;
+        hasProperty(element: any, name: string): boolean;
+        getElementsByClassName(element: any, name: string): any;
+        getElementsByTagName(element: any, name: string): any;
+        classList(element: any): Array<any>;
+        addClass(element: any, classname: string): void;
+        removeClass(element: any, classname: string): void;
+        hasClass(element: any, classname: string): any;
+        setStyle(element: any, stylename: string, stylevalue: string): void;
+        removeStyle(element: any, stylename: string): void;
+        getStyle(element: any, stylename: string): any;
+        tagName(element: any): string;
+        attributeMap(element: any): any;
+        hasAttribute(element: any, attribute: string): any;
+        getAttribute(element: any, attribute: string): any;
+        setAttribute(element: any, name: string, value: string): void;
+        removeAttribute(element: any, attribute: string): any;
+        templateAwareRoot(el: any): any;
+        createHtmlDocument(): Document;
+        defaultDoc(): Document;
+        getBoundingClientRect(el: any): any;
+        getTitle(): string;
+        setTitle(newTitle: string): void;
+        elementMatches(n: any, selector: string): boolean;
+        isTemplateElement(el: any): boolean;
+        isTextNode(node: Node): boolean;
+        isCommentNode(node: Node): boolean;
+        isElementNode(node: Node): boolean;
+        hasShadowRoot(node: any): boolean;
+        isShadowRoot(node: any): boolean;
+        importIntoDoc(node: Node): Node;
+        isPageRule(rule: any): boolean;
+        isStyleRule(rule: any): boolean;
+        isMediaRule(rule: any): boolean;
+        isKeyframesRule(rule: any): boolean;
+        getHref(el: Element): string;
+        getEventKey(event: any): string;
+        getGlobalEventTarget(target: string): EventTarget;
+        getHistory(): History;
+        getLocation(): Location;
+        getBaseHref(): any;
+    }
+}
+
+declare module "angular2/src/dom/dom_adapter" {
+    class DomAdapter {
+        static makeCurrent(): void;
+        logError(error: any): void;
+        attrToPropMap: any;
+        query(selector: string): any;
+        querySelector(el: any, selector: string): Node;
+        querySelectorAll(el: any, selector: string): Array<any>;
+        on(el: any, evt: any, listener: any): void;
+        onAndCancel(el: any, evt: any, listener: any): Function;
+        dispatchEvent(el: any, evt: any): void;
+        createMouseEvent(eventType: string): MouseEvent;
+        createEvent(eventType: any): Event;
+        getInnerHTML(el: any): any;
+        getOuterHTML(el: any): any;
+        nodeName(node: Node): string;
+        nodeValue(node: Node): string;
+        type(node: HTMLInputElement): string;
+        content(node: Node): Node;
+        firstChild(el: any): Node;
+        nextSibling(el: any): Node;
+        parentElement(el: any): any;
+        childNodes(el: any): Array<Node>;
+        childNodesAsList(el: any): Array<any>;
+        clearNodes(el: any): void;
+        appendChild(el: any, node: any): void;
+        removeChild(el: any, node: any): void;
+        replaceChild(el: Node, newChild: any, oldChild: any): void;
+        remove(el: any): any;
+        insertBefore(el: any, node: any): void;
+        insertAllBefore(el: any, nodes: any): void;
+        insertAfter(el: any, node: any): void;
+        setInnerHTML(el: any, value: any): void;
+        getText(el: any): any;
+        setText(el: any, value: string): void;
+        getValue(el: any): any;
+        setValue(el: any, value: string): void;
+        getChecked(el: any): any;
+        setChecked(el: any, value: boolean): void;
+        createTemplate(html: any): HTMLElement;
+        createElement(tagName: any, doc?: Document): HTMLElement;
+        createTextNode(text: string, doc?: Document): Text;
+        createScriptTag(attrName: string, attrValue: string, doc?: Document): HTMLScriptElement;
+        createStyleElement(css: string, doc?: Document): HTMLStyleElement;
+        createShadowRoot(el: HTMLElement): DocumentFragment;
+        getShadowRoot(el: HTMLElement): DocumentFragment;
+        getHost(el: HTMLElement): HTMLElement;
+        clone(node: Node): Node;
+        hasProperty(element: any, name: string): boolean;
+        getElementsByClassName(element: any, name: string): any;
+        getElementsByTagName(element: any, name: string): any;
+        classList(element: any): Array<any>;
+        addClass(element: any, classname: string): void;
+        removeClass(element: any, classname: string): void;
+        hasClass(element: any, classname: string): any;
+        setStyle(element: any, stylename: string, stylevalue: string): void;
+        removeStyle(element: any, stylename: string): void;
+        getStyle(element: any, stylename: string): any;
+        tagName(element: any): string;
+        attributeMap(element: any): any;
+        hasAttribute(element: any, attribute: string): any;
+        getAttribute(element: any, attribute: string): any;
+        setAttribute(element: any, name: string, value: string): void;
+        removeAttribute(element: any, attribute: string): any;
+        templateAwareRoot(el: any): any;
+        createHtmlDocument(): Document;
+        defaultDoc(): Document;
+        getBoundingClientRect(el: any): any;
+        getTitle(): string;
+        setTitle(newTitle: string): void;
+        elementMatches(n: any, selector: string): boolean;
+        isTemplateElement(el: any): boolean;
+        isTextNode(node: Node): boolean;
+        isCommentNode(node: Node): boolean;
+        isElementNode(node: Node): boolean;
+        hasShadowRoot(node: any): boolean;
+        isShadowRoot(node: any): boolean;
+        importIntoDoc(node: Node): Node;
+        isPageRule(rule: any): boolean;
+        isStyleRule(rule: any): boolean;
+        isMediaRule(rule: any): boolean;
+        isKeyframesRule(rule: any): boolean;
+        getHref(el: Element): string;
+        getEventKey(event: any): string;
+        getGlobalEventTarget(target: string): EventTarget;
+        getHistory(): History;
+        getLocation(): Location;
+        getBaseHref(): any;
+    }
+    var DOM: DomAdapter;
+}
+declare module "angular2/src/dom/parse5_adapter" {
+    class Parse5DomAdapter {
+        static makeCurrent(): void;
+        logError(error: any): void;
+        attrToPropMap: any;
+        query(selector: string): any;
+        querySelector(el: any, selector: string): Node;
+        querySelectorAll(el: any, selector: string): Array<any>;
+        on(el: any, evt: any, listener: any): void;
+        onAndCancel(el: any, evt: any, listener: any): Function;
+        dispatchEvent(el: any, evt: any): void;
+        createMouseEvent(eventType: string): MouseEvent;
+        createEvent(eventType: any): Event;
+        getInnerHTML(el: any): any;
+        getOuterHTML(el: any): any;
+        nodeName(node: Node): string;
+        nodeValue(node: Node): string;
+        type(node: HTMLInputElement): string;
+        content(node: Node): Node;
+        firstChild(el: any): Node;
+        nextSibling(el: any): Node;
+        parentElement(el: any): any;
+        childNodes(el: any): Array<Node>;
+        childNodesAsList(el: any): Array<any>;
+        clearNodes(el: any): void;
+        appendChild(el: any, node: any): void;
+        removeChild(el: any, node: any): void;
+        replaceChild(el: Node, newChild: any, oldChild: any): void;
+        remove(el: any): any;
+        insertBefore(el: any, node: any): void;
+        insertAllBefore(el: any, nodes: any): void;
+        insertAfter(el: any, node: any): void;
+        setInnerHTML(el: any, value: any): void;
+        getText(el: any): any;
+        setText(el: any, value: string): void;
+        getValue(el: any): any;
+        setValue(el: any, value: string): void;
+        getChecked(el: any): any;
+        setChecked(el: any, value: boolean): void;
+        createTemplate(html: any): HTMLElement;
+        createElement(tagName: any, doc?: Document): HTMLElement;
+        createTextNode(text: string, doc?: Document): Text;
+        createScriptTag(attrName: string, attrValue: string, doc?: Document): HTMLScriptElement;
+        createStyleElement(css: string, doc?: Document): HTMLStyleElement;
+        createShadowRoot(el: HTMLElement): DocumentFragment;
+        getShadowRoot(el: HTMLElement): DocumentFragment;
+        getHost(el: HTMLElement): HTMLElement;
+        clone(node: Node): Node;
+        hasProperty(element: any, name: string): boolean;
+        getElementsByClassName(element: any, name: string): any;
+        getElementsByTagName(element: any, name: string): any;
+        classList(element: any): Array<any>;
+        addClass(element: any, classname: string): void;
+        removeClass(element: any, classname: string): void;
+        hasClass(element: any, classname: string): any;
+        setStyle(element: any, stylename: string, stylevalue: string): void;
+        removeStyle(element: any, stylename: string): void;
+        getStyle(element: any, stylename: string): any;
+        tagName(element: any): string;
+        attributeMap(element: any): any;
+        hasAttribute(element: any, attribute: string): any;
+        getAttribute(element: any, attribute: string): any;
+        setAttribute(element: any, name: string, value: string): void;
+        removeAttribute(element: any, attribute: string): any;
+        templateAwareRoot(el: any): any;
+        createHtmlDocument(): Document;
+        defaultDoc(): Document;
+        getBoundingClientRect(el: any): any;
+        getTitle(): string;
+        setTitle(newTitle: string): void;
+        elementMatches(n: any, selector: string): boolean;
+        isTemplateElement(el: any): boolean;
+        isTextNode(node: Node): boolean;
+        isCommentNode(node: Node): boolean;
+        isElementNode(node: Node): boolean;
+        hasShadowRoot(node: any): boolean;
+        isShadowRoot(node: any): boolean;
+        importIntoDoc(node: Node): Node;
+        isPageRule(rule: any): boolean;
+        isStyleRule(rule: any): boolean;
+        isMediaRule(rule: any): boolean;
+        isKeyframesRule(rule: any): boolean;
+        getHref(el: Element): string;
+        getEventKey(event: any): string;
+        getGlobalEventTarget(target: string): EventTarget;
+        getHistory(): History;
+        getLocation(): Location;
+        getBaseHref(): any;
+    }
+}
+
+
+
+declare module "angular2/src/di/binding" {
+  class Binding {
+
+  }
+}
+
+declare module "angular2/di" {
+  class Binding {}
+  function bind(token: any): any;
+  class Injector {
+     resolveAndCreateChild(bindings: [any]): Injector;
+     static resolveAndCreate(bindings: any): any;
+     static fromResolvedBindings(bindings: any): any;
+     asyncGet(di: any):any;
+     get(di: any):any;
+  }
+  var Inject: any;
+  var Injectable: any;
+  var Dependency: any;
+  var Optional: any;
+
+  var ResolvedBinding: any;
+  var Key: any;
+  var KeyRegistry: any;
+  var TypeLiteral: any;
+  var NoBindingError: any;
+  var AbstractBindingError: any;
+  var AsyncBindingError: any;
+  var CyclicDependencyError: any;
+  var InstantiationError: any;
+  var InvalidBindingError: any;
+  var NoAnnotationError: any;
+  var OpaqueToken: any;
+  var ___esModule: any;
+  var InjectAnnotation: any;
+  var InjectPromiseAnnotation: any;
+  var InjectLazyAnnotation: any;
+  var OptionalAnnotation: any;
+  var InjectableAnnotation: any;
+  var DependencyAnnotation: any;
 }

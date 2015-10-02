@@ -2,78 +2,28 @@
 
 // Angular 2
 import {bootstrap} from 'angular2/angular2';
-
-
 /*
- * Common Injectables
- * our custom helper injectables to configure our app differently using the dependency injection system
+ * Bindings provided by Angular
  */
-import {
-  jitInjectables,
-  dynamicInjectables,
-  preGeneratedInjectables
-} from '../common/changeDetectionInjectables';
-import {
-  html5locationInjectables,
-  hashlocationInjectables
-} from '../common/locationInjectables';
-
-/*
- * Angular Modules
- */
-import {httpInjectables} from 'angular2/http';
-import {formInjectables} from 'angular2/forms';
-import {routerInjectables} from 'angular2/router';
-
-/*
- * App Services
- * our collection of injectables services
- */
-import {appServicesInjectables} from './services/services';
-
+import {FORM_BINDINGS} from 'angular2/angular2'
+import {ROUTER_BINDINGS} from 'angular2/router';
+import {ELEMENT_PROBE_BINDINGS} from 'angular2/debug';
+import {HTTP_BINDINGS} from 'angular2/http';
 
 /*
  * App Component
  * our top level component that holds all of our components
  */
-import {App} from './components/app';
-
-
-/*
- * Universal injectables
- */
-var universalInjectables = [
-  // Angular's http/form/router services/bindings
-  httpInjectables,
-  formInjectables,
-  routerInjectables,
-
-  // Our collection of services from /services
-  appServicesInjectables
-];
-
-/*
- * Platform injectables
- */
-var platformInjectables = [
-  // if we want to use the Just-In-Time change detection
-  // bestChangeDetectionInjectables,
-
-  // if we want to use hashBash url for the router
-  // hashlocationInjectables
-];
+import {App} from './app';
 
 /*
  * Bootstrap our Angular app with a top level component `App` and inject
- * our Universal/Platform services/bindings into Angular's dependency injection
+ * our Services and Bindings into Angular's dependency injection
  */
-bootstrap(
-  // Top Level Component
-  App,
-
-  // AppInjector
-  [
-    universalInjectables,
-    platformInjectables
-  ]
-);
+bootstrap(App, [
+  // These are dependencies of our App
+  FORM_BINDINGS,
+  ROUTER_BINDINGS,
+  HTTP_BINDINGS,
+  ELEMENT_PROBE_BINDINGS
+]);
