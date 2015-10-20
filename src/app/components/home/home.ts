@@ -1,33 +1,74 @@
 /// <reference path="../../../typings/_custom.d.ts" />
 
-/*
- * Angular 2
- */
-import {Component, View} from 'angular2/annotations';
+import {Component, View, CORE_DIRECTIVES} from 'angular2/angular2';
+import { Router } from 'angular2/router';
 
-/*
- * Directives
- * angularDirectives: Angular's core/form/router directives
- * appDirectives: Our collection of directives from /directives
- */
-import {appDirectives, angularDirectives} from 'app/directives/directives';
-
-// Use webpack's `require` to get files as a raw string using raw-loader
-let styles   = require('./home.css');
+let styles = require('./home.css');
 let template = require('./home.html');
 
-// Simple external file component example
 @Component({
   selector: 'home'
 })
 @View({
-  directives: [ angularDirectives, appDirectives ],
-  // include our .html and .css file
-  styles: [ styles ],
-  template: template
+  directives: [CORE_DIRECTIVES],
+  template: template,
+  styles: [styles]
 })
 export class Home {
-  constructor() {
+  jwt:string;
+  decodedJwt:string;
+  response:string;
+  api:string;
 
+  constructor(public router:Router) {
+    this.jwt = localStorage.getItem('jwt');
+    this.decodedJwt = this.jwt && window.jwt_decode(this.jwt);
+  }
+
+  logout() {
+    localStorage.removeItem('jwt');
+    this.router.parent.navigateByUrl('/login');
+  }
+
+  callAnonymousApi() {
+    this._callApi('Anonymous', 'http://localhost:3001/api/random-quote');
+  }
+
+  callSecuredApi() {
+    this._callApi('Secured', 'http://localhost:3001/api/protected/random-quote');
+  }
+
+  status(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return Promise.resolve(response);
+    }
+    return response.text().then(function(text) {
+      throw new Error(text);
+    });
+  }
+
+  text(response) {
+    return response.text();
+  }
+
+  _callApi(type, url) {
+    this.response = null;
+    this.api = type;
+    window.fetch(url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'bearer ' + this.jwt
+        }
+      })
+      .then(status)
+      .then(text)
+      .then((response) => {
+        this.response = response;
+      })
+      .catch((error) => {
+        this.response = error.message;
+      });
   }
 }

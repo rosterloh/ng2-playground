@@ -1,34 +1,18 @@
 /// <reference path="../typings/_custom.d.ts" />
 
-/*
- * Angular 2 decorators and services
- */
 import {Directive, Component, View, ElementRef} from 'angular2/angular2';
-import {RouteConfig, Router} from 'angular2/router';
+import {Location, RouteConfig, RouterLink, Router} from 'angular2/router';
 import {Http, Headers} from 'angular2/http';
 
-/*
- * Angular Directives
- */
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
+import {LoggedInRouterOutlet} from './LoggedInOutlet';
+import {Home} from '../components/home/home';
+import {Login} from '../components/login/login';
+import {Signup} from '../components/signup/signup';
 
-/*
- * Directive
- * XLarge is a simple directive to show how one of made
- */
-@Directive({
-  selector: '[x-large]' // using [ ] means selecting attributes
-})
-class XLarge {
-  constructor(element: ElementRef) {
-    // simple DOM manipulation to set font size to x-large
-    // `nativeElement` is the direct reference to the DOM element
-    element.nativeElement.style.fontSize = 'x-large';
-  }
-}
-
+let template = require('./app.html');
 
 /*
  * App Component
@@ -41,7 +25,7 @@ class XLarge {
   selector: 'app', // <app></app>
   // We need to tell Angular's compiler which directives are in our template.
   // Doing so will allow Angular to attach our behavior to an element
-  directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, XLarge ],
+  directives: [ CORE_DIRECTIVES, FORM_DIRECTIVES, ROUTER_DIRECTIVES, LoggedInRouterOutlet ],
   // Our list of styles in our component. We may add more to compose many styles together
   styles: [`
     .title {
@@ -52,34 +36,20 @@ class XLarge {
     }
   `],
   // Every Angular template is first compiled by the browser before Angular runs it's compiler
-  template: `
-  <header>
-    <h1 class="title">Hello {{ title }}</h1>
-  </header>
-  <main>
-    Your Content Here
-    <div>
-      <input type="text" [value]="title" (input)="title = $event.target.value" autofocus>
-      <!--
-        Rather than wiring up two-way data-binding ourselves
-        we can use Angular's [(ng-model)] syntax
-        <input type="text" [(ng-model)]="title">
-      -->
-    </div>
-    <pre>this.title = {{ title | json }}</pre>
-    <pre>this.data = {{ data | json }}</pre>
-  </main>
-  <footer x-large>
-    WebPack Angular 2 Starter by <a href="https://twitter.com/AngularClass">@AngularClass</a>
-  </footer>
-  `
+  template: template
 })
+@RouteConfig([
+  { path: '/',       redirectTo: '/home' },
+  { path: '/home',   as: 'Home',   component: Home },
+  { path: '/login',  as: 'Login',  component: Login },
+  { path: '/signup', as: 'Signup', component: Signup }
+])
 export class App {
   // These are member type
   title: string;
   data: Array<any> = []; // default data
   // TypeScript public modifiers
-  constructor(public http: Http) {
+  constructor(public router: Router, public http: Http) {
     this.title = 'Angular 2';
   }
 
