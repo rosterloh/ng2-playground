@@ -1,21 +1,15 @@
 {
-    "version": "1.6.2",
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "declaration": false,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "noLib": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": true,
-        "listFiles": true,
-        "outDir": "dist"
-    },
-    "files": [
-        "src/typings/_custom.d.ts",
-        "src/app/app.ts",
-        "src/app/bootstrap.ts"
-    ]
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  },
+  "files": [
+    "src/app/app.spec.ts",
+    "src/app/app.ts",
+    "src/app/bootstrap.ts"
+  ]
 }
