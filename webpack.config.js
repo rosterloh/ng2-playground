@@ -9,6 +9,8 @@ var CopyWebpackPlugin  = require('copy-webpack-plugin');
 var HtmlWebpackPlugin  = require('html-webpack-plugin');
 var ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 
+var autoprefixer = require('autoprefixer');
+
 var metadata = {
   title: 'Angular2 Playground',
   baseUrl: '/',
@@ -49,14 +51,6 @@ module.exports = {
       {
         test: /\.ts$/,
         loader: 'ts-loader',
-        query: {
-          'ignoreDiagnostics': [
-            2403, // 2403 -> Subsequent variable declarations
-            2300, // 2300 -> Duplicate identifier
-            2374, // 2374 -> Duplicate number index signature
-            2375  // 2375 -> Duplicate string index signature
-          ]
-        },
         exclude: [ /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/ ]
       },
 
@@ -66,17 +60,15 @@ module.exports = {
       // Support for CSS as raw text
       { test: /\.css$/,   loader: 'raw-loader' },
 
-      {
-        test: /\.scss$/,
-        exclude: /node_modules/,
-        loader: 'raw-loader!sass-loader'
-      },
-
       // support for .html as raw text
-      { test: /\.html$/,  loader: 'raw-loader' }
+      { test: /\.html$/,  loader: 'raw-loader' },
+
+      { test: /\.scss$/, exclude: /node_modules/, loader: 'raw-loader!sass-loader!postcss-loader' },
     ]
   },
-
+  postcss: function () {
+    return [autoprefixer];
+  },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(true),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.bundle.js', minChunks: Infinity }),

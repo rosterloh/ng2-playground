@@ -1,29 +1,44 @@
-import {Component, View} from 'angular2/core';
-import {ViewEncapsulation} from 'angular2/core';
-import {FORM_PROVIDERS} from 'angular2/common';
-import {Login} from './login/login';
-import {Home} from './home/home';
-import {NavigationService} from './navigation/navigation';
+import {Component, View, ViewEncapsulation} from 'angular2/core';
+import {ROUTER_DIRECTIVES, RouteConfig, Router} from 'angular2/router';
+import {FORM_PROVIDERS, CORE_DIRECTIVES} from 'angular2/common';
 import {MATERIAL_DIRECTIVES, MATERIAL_PROVIDERS} from 'ng2-material/all';
-import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
+
+import {Settings} from './settings/settings';
+import {UserService} from './services/user';
 
 @Component({
   selector: 'app',
-  providers: [ ...FORM_PROVIDERS, NavigationService, MATERIAL_PROVIDERS ],
-  directives: [ MATERIAL_DIRECTIVES, ROUTER_DIRECTIVES ],
+  providers: [ ...FORM_PROVIDERS, MATERIAL_PROVIDERS, UserService ],
+  directives: [ ...ROUTER_DIRECTIVES, CORE_DIRECTIVES, MATERIAL_DIRECTIVES, Settings ],
   pipes: [],
   styles: [
-    require('../assets/css/index.scss')
+    require('./app.scss')
   ],
   encapsulation: ViewEncapsulation.None,
   template: require('./app.html')
 })
 @RouteConfig([
-  {path: '/login', component: Login, name: 'Login', data: {title: 'Login Page'}},
-  {path: '/home', component: Home, name: 'Home', data: {title: 'Home Page'}},
-  {path: '/**', redirectTo: ['Login']}
+  { path: '/settings/...', component: Settings, as: 'Settings', useAsDefault: true }
 ])
 export class App {
-  constructor(public navigation: NavigationService) {
+  constructor(
+    private _userService: UserService,
+    private _router: Router
+  ) {}
+
+  login() {
+    return this._userService.login();
+  }
+
+  logout() {
+    return this._userService.logout();
+  }
+
+  loggedIn() {
+    return this._userService.loggedIn();
+  }
+
+  getUserInfo() {
+    return this._userService.getUserInfo();
   }
 }

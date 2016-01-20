@@ -10,17 +10,18 @@
   },
   "files": [
     "./src/app/app.ts",
-    "./src/app/home/directives/x-large.ts",
-    "./src/app/home/home.ts",
-    "./src/app/home/providers/title.ts",
-    "./src/app/login/login.ts",
-    "./src/app/navigation/navigation.ts",
+    "./src/app/services/navigation.ts",
+    "./src/app/services/user.ts",
+    "./src/app/settings/address/address-model.ts",
+    "./src/app/settings/address/address.ts",
+    "./src/app/settings/preferences/preferences.ts",
+    "./src/app/settings/preferences/prefs-model.ts",
+    "./src/app/settings/settings.ts",
     "./src/main.ts",
     "./src/vendor.ts"
   ],
   "filesGlob": [
     "./src/**/*.ts",
-    "./test/**/*.ts",
     "!./node_modules/**/*.ts"
   ],
   "compileOnSave": false,
