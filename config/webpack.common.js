@@ -13,7 +13,7 @@ var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
  */
 const METADATA = {
   title: 'Angular2 Webpack Starter by @gdi2990 from @AngularClass',
-  baseUrl: '/'
+  baseUrl: '/',
 };
 
 /**
@@ -90,9 +90,9 @@ module.exports = {
         exclude: [
           // these packages have problems with their sourcemaps
           helpers.root('node_modules/rxjs'),
-          helpers.root('node_modules/@angular2-material')
-        ]
-      }
+          helpers.root('node_modules/@angular2-material'),
+        ],
+      },
 
     ],
 
@@ -110,7 +110,7 @@ module.exports = {
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
-        exclude: [/\.(spec|e2e)\.ts$/]
+        exclude: [/\.(spec|e2e)\.ts$/],
       },
 
       // Json loader support for *.json files.
@@ -118,7 +118,7 @@ module.exports = {
       // See: https://github.com/webpack/json-loader
       {
         test: /\.json$/,
-        loader: 'json-loader'
+        loader: 'json-loader',
       },
 
       // Raw loader support for *.css files
@@ -127,7 +127,7 @@ module.exports = {
       // See: https://github.com/webpack/raw-loader
       {
         test: /\.css$/,
-        loader: 'raw-loader'
+        loader: 'raw-loader',
       },
 
       // Raw loader support for *.html
@@ -137,7 +137,7 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'raw-loader',
-        exclude: [helpers.root('src/index.html')]
+        exclude: [helpers.root('src/index.html')],
       },
 
     ]
@@ -171,7 +171,7 @@ module.exports = {
     // See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
     new webpack.optimize.CommonsChunkPlugin({
       name: helpers.reverse(['polyfills', 'vendor', 'main']),
-      minChunks: Infinity
+      minChunks: Infinity,
     }),
 
     // Plugin: CopyWebpackPlugin
@@ -182,7 +182,7 @@ module.exports = {
     // See: https://www.npmjs.com/package/copy-webpack-plugin
     new CopyWebpackPlugin([{
       from: 'src/assets',
-      to: 'assets'
+      to: 'assets',
     }]),
 
     // Plugin: HtmlWebpackPlugin
@@ -193,8 +193,8 @@ module.exports = {
     // See: https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       template: 'src/index.html',
-      chunksSortMode: 'none'
-    })
+      chunksSortMode:helpers.packageSort(['polyfills', 'vendor', 'main']),
+    }),
 
   ],
 
@@ -207,6 +207,6 @@ module.exports = {
     crypto: 'empty',
     module: false,
     clearImmediate: false,
-    setImmediate: false
+    setImmediate: false,
   },
 };

@@ -16,9 +16,11 @@ console.log('`About` component loaded asynchronously');
     }
   `],
   template: `
-    <h1>
-      patrick@AngularClass.com
-    </h1>
+    <md-card>
+      <h1>
+        patrick@AngularClass.com
+      </h1>
+    </md-card>
   `
 })
 export class About {
