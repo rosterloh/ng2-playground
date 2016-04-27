@@ -1,16 +1,16 @@
-var helpers = require('./helpers'); // Helper: root(), and rootDir() are defined at the bottom
-var webpackMerge = require('webpack-merge'); //Used to merge webpack configs
-var commonConfig = require('./webpack.common.js'); //The settings that are common to prod and dev
+const helpers = require('./helpers');
+const webpackMerge = require('webpack-merge'); // used to merge webpack configs
+const commonConfig = require('./webpack.common.js'); // the settings that are common to prod and dev
 
 /**
  * Webpack Plugins
  */
-var ProvidePlugin = require('webpack/lib/ProvidePlugin');
-var DefinePlugin = require('webpack/lib/DefinePlugin');
-var DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
-var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-var CompressionPlugin = require('compression-webpack-plugin');
-var WebpackMd5Hash = require('webpack-md5-hash');
+const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
+const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 
 /**
  * Webpack Constants
@@ -132,63 +132,11 @@ module.exports = webpackMerge(commonConfig, {
         screw_ie8: true,
         keep_fnames: true,
       }, //prod
-      /*
-      mangle: {
-        screw_ie8: true,
-        except: [
-            'App',
-            'About',
-            'Contact',
-            'Home',
-            'Menu',
-            'Footer',
-            'XLarge',
-            'RouterActive',
-            'RouterLink',
-            'RouterOutlet',
-            'NgFor',
-            'NgIf',
-            'NgClass',
-            'NgSwitch',
-            'NgStyle',
-            'NgSwitchDefault',
-            'NgControl',
-            'NgControlName',
-            'NgControlGroup',
-            'NgFormControl',
-            'NgModel',
-            'NgFormModel',
-            'NgForm',
-            'NgSelectOption',
-            'DefaultValueAccessor',
-            'NumberValueAccessor',
-            'CheckboxControlValueAccessor',
-            'SelectControlValueAccessor',
-            'RadioControlValueAccessor',
-            'NgControlStatus',
-            'RequiredValidator',
-            'MinLengthValidator',
-            'MaxLengthValidator',
-            'PatternValidator',
-            'AsyncPipe',
-            'DatePipe',
-            'JsonPipe',
-            'NumberPipe',
-            'DecimalPipe',
-            'PercentPipe',
-            'CurrencyPipe',
-            'LowerCasePipe',
-            'UpperCasePipe',
-            'SlicePipe',
-            'ReplacePipe',
-            'I18nPluralPipe',
-            'I18nSelectPipe'
-          ] // Needed for uglify RouterLink problem
-      }, // prod
-      */
+
       compress: {
         screw_ie8: true,
       }, //prod
+
       comments: false, //prod
     }),
 
